@@ -36,6 +36,11 @@ RUN TERRAFORM_VERSION=${TERRAFORM_VERSION:-$(curl -s  https://api.github.com/rep
         curl https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -o terraform.zip && \
         unzip terraform.zip -d /usr/local/bin && rm terraform.zip
 
+# Ansible
+RUN echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" | tee -a /etc/apt/sources.list && \
+        apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367 && \
+        apt -y update && apt -y install ansible
+
 RUN useradd -u ${UID} hostuser && mkdir /home/hostuser
 WORKDIR /home/hostuser
 USER hostuser
